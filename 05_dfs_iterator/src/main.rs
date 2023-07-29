@@ -1,3 +1,6 @@
+/// Interesting example of a tree datastructure which is traversed by an iterator.
+///
+/// This example shows a lot of interesting concepts around memory management in rust.
 use std::mem;
 
 enum Node {
@@ -6,15 +9,14 @@ enum Node {
 }
 
 impl Node {
-  // Create an iterator
-  fn iter<'a>(&'a self) -> NodeIter<'a> {
-    NodeIter::new(self)
-  }
+    // Create an iterator
+    fn iter<'a>(&'a self) -> NodeIter<'a> {
+        NodeIter::new(self)
+    }
 }
 
-
 struct NodeIter<'a> {
-    children: &'a [Node],
+    children: &'a [Node], // a slice of Nodes
 
     // The Box type allocates NodeIter on the Heap. This is needed because
     // a struct cannot contain itself. This would lead to an infinite stack consumption
@@ -71,7 +73,8 @@ impl<'a> Iterator for NodeIter<'a> {
                         parent: new_parent,
                     };
 
-                    *self = new_self;
+                    *self = new_self; // a new self
+
                     self.next()
                 }
             },
@@ -88,8 +91,6 @@ impl<'a> Iterator for NodeIter<'a> {
     }
 }
 
-
-
 fn main() {
     #[rustfmt::skip]
     let node = Node::Children(vec![
@@ -105,7 +106,6 @@ fn main() {
         Node::LeafNode(6)
     ]);
 
-
     println!("First iteration");
     for i in node.iter() {
         println!("item: {i}")
@@ -113,6 +113,7 @@ fn main() {
 
     println!("\nSecond iteration");
     for i in node.iter() {
-      println!("item:{i}")
-  }
+        println!("item:{i}")
+    }
+
 }

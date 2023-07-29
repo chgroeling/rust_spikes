@@ -1,4 +1,4 @@
-// Detect palindrome strings in two different ways.
+/// Detect strings representing palindromes in two different ways.
 
 use std::iter::zip;
 

@@ -1,6 +1,4 @@
-// ====================================================
-// This files shows some use cases of structs in rust
-// ====================================================
+/// This files shows some use cases of structs in rust
 
 // ------------------------------------------
 // Simple struct

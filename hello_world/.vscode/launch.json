@@ -11,6 +11,14 @@
             "cwd": "${workspaceRoot}",
             "environment": [],
             "console": "externalTerminal"
-        }
+        },
+        {
+          "name": "(OSX) Launch",
+          "type": "lldb",
+          "request": "launch",
+          "program": "${workspaceRoot}/target/debug/hello_world",
+          "args": [],
+          "cwd": "${workspaceRoot}",
+      }
     ]
 }

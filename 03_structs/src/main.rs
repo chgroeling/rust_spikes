@@ -54,7 +54,7 @@ mod structs {
     }
 }
 // ------------------------------------------
-// Struct with  multiple borrows ... 
+// Struct with  multiple borrows ...
 // 'a is a lifetime annotation.  This means the struct lifetime is connected to the lifetime of a,b,c
 // if a goes out of scope the struct must go out of scope as well.
 // ------------------------------------------
@@ -62,6 +62,19 @@ struct TestStruct4<'a> {
     a: &'a mut i32,
     b: &'a mut i32,
     c: &'a mut i32,
+}
+
+// ------------------------------------------
+// tuple structs
+// ------------------------------------------
+struct TestStruct5(i32, i32, i32);
+
+// ------------------------------------------
+// struct containing itself
+// ------------------------------------------
+struct TestStruct6 {
+    a: i32,
+    b: Option<Box<TestStruct6>>,
 }
 
 fn main() {
@@ -136,7 +149,7 @@ fn main() {
         };
 
         test_struct1.b = 15;
-        
+
         println!(
             "#4 test_struct1 -> a={0} b={1} c={2}",
             test_struct1.a, test_struct1.b, test_struct1.c
@@ -190,5 +203,41 @@ fn main() {
         *test_struct4.c = 16;
 
         println!("#7 test_struct4 -> a={0} b={1} c={2}", a, b, c);
+    }
+    {
+        // ------------------------------------------
+        //Tuple  Struct
+        // ------------------------------------------
+        let test_struct5 = TestStruct5(32, 33, 34);
+
+        println!(
+            "#8 test_struct5 -> 0={0} 1={1} 2={2}",
+            test_struct5.0, test_struct5.1, test_struct5.2
+        )
+    }
+    {
+        // ------------------------------------------
+        // Self containing struct
+        // ------------------------------------------
+        let test_struct6 = TestStruct6 {
+            a: 20,
+            b: Some(Box::new(TestStruct6 {
+                a: 21,
+                b: Some(Box::new(TestStruct6 { a: 21, b: None })),
+            })),
+        };
+
+        let b = (&test_struct6.b).as_ref().unwrap();
+
+        let a2 = b.a;
+
+        let b2 = b.as_ref().b.as_ref().unwrap();
+
+        let a3 = b2.a;
+
+        println!(
+            "#9 test_struct5 -> 0={0} 1={1} 2={2}",
+            test_struct6.a, a2, a3
+        )
     }
 }

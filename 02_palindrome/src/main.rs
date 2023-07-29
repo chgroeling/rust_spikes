@@ -1,3 +1,5 @@
+// Detect palindrome strings in two different ways.
+
 use std::iter::zip;
 
 /// Changes `is_palindrome` to true if `word` is a palindrome. False otherwise.
@@ -14,6 +16,7 @@ fn palindrome_fct1(word: &str, is_palindrome: &mut bool) {
         }
     }
 }
+
 /// Returns true if `word` is a palindrome
 ///
 /// # Arguments

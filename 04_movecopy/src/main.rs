@@ -1,19 +1,18 @@
-struct Lifetime1 {}
+struct MoveCopyTest1 {}
 
-impl Lifetime1 {
-    fn test_mutable_borrow(&mut self) {
+impl MoveCopyTest1 {
+    fn test_mutable_borrow(&self) {
         println!("This function wants a mutable borrow of self ")
     }
-    fn test_move_ownership(mut self) {
-        // the mut here is optional
+    fn test_move_ownership(self) {
         println!("This function moves self and makes the copy mutable");
     }
 }
 
 fn main() {
     {
-        // difference between &mut and mut
-        let mut lifetime1 = Lifetime1 {};
+        // difference between &self and self
+        let lifetime1 = MoveCopyTest1 {};
 
         lifetime1.test_mutable_borrow();
         lifetime1.test_move_ownership();

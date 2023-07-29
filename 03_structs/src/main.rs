@@ -189,6 +189,6 @@ fn main() {
         *test_struct4.b = 14;
         *test_struct4.c = 16;
 
-        println!("#6 test_struct3 -> a={0} b={1} c={2}", a, b, c);
+        println!("#7 test_struct4 -> a={0} b={1} c={2}", a, b, c);
     }
 }

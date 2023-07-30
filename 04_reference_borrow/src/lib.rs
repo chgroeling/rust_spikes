@@ -1,4 +1,6 @@
-#[derive(Debug)]
+/// This file gives some example what rust will do when working with references and mutable references
+/// 
+/// It contains not "real" tests. Just examples contained in a test.
 struct TestStruct {}
 
 #[allow(dead_code)]
@@ -8,7 +10,7 @@ impl TestStruct {
     }
 
     fn test_move_ownership(self) {
-        // This function moves self and makes the copy mutable.
+        // This function moves self to this method
     }
 }
 

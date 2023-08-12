@@ -1,17 +1,13 @@
-/// This files shows some use cases of structs in rust
+//! This crate is used to do some experiments with structs and lifetime.  
 
-// ------------------------------------------
-// Simple struct
-// ------------------------------------------
+/// A struct containing 3 value types
 struct TestStruct1 {
     a: i32,
     b: i32, // a field cannot be mutable  (e.g. mut b:i32)  The mutability of a struct is in its binding:
     c: i32,
 }
 
-// ------------------------------------------
-// Struct with method
-// ------------------------------------------
+/// A struct containing 3 value types. It also implements a `new` method
 struct TestStruct2 {
     a: i32,
     b: i32,
@@ -19,17 +15,19 @@ struct TestStruct2 {
 }
 
 impl TestStruct2 {
+    /// Create a [TestStruct2] with values a=0, b=1, c=2
     fn new() -> TestStruct2 {
         TestStruct2 { a: 0, b: 1, c: 2 }
     }
 }
 
-// ------------------------------------------
-// Struct with private variables
-// In Rust, a file is implicitly a module.
-// if you want to make the variable private in your example, put your struct and implementation inside a modul
-// ------------------------------------------
+/// A module that containts [structs::TestStruct3]
 mod structs {
+    /// Struct with private variables
+    ///
+    /// In Rust, a file is implicitly a module and all members in a struct are module wide public.
+    /// Outside of the module everything is private. To make a member public use the keyword `pub`.
+    /// This also must be done for the struct itself.
     pub struct TestStruct3 {
         a: i32,
         b: i32,
@@ -40,36 +38,32 @@ mod structs {
         pub fn new() -> TestStruct3 {
             TestStruct3 { a: 0, b: 1, c: 2 }
         }
-        // A borrow to self prevents that the owneship changes
+        /// A borrow to self prevents that the ownership changes
         pub fn get(&self) -> (i32, i32, i32) {
             (self.a, self.b, self.c)
         }
 
-        // a mutable borrow is needed when one want to change a value
+        /// a mutable borrow is needed when one want to change a value
         pub fn set_b(&mut self, b: i32) {
             self.b = b
         }
     }
 }
-// ------------------------------------------
-// Struct with  multiple borrows ...
-// 'a is a lifetime annotation.  This means the struct lifetime is connected to the lifetime of a,b,c
-// if a goes out of scope the struct must go out of scope as well.
-// ------------------------------------------
-struct TestStruct4<'a> {
-    a: &'a mut i32,
-    b: &'a mut i32,
-    c: &'a mut i32,
+
+/// Struct with multiple mutable value types.
+///
+/// `'lifetime` is the so called lifetime annotation.  This means that the structs lifetime is connected
+/// to the lifetime of `a`, `b` and `c`. E.g. if `a` goes out of scope the struct must go out of scope as well.
+struct TestStruct4<'lifetime> {
+    a: &'lifetime mut i32,
+    b: &'lifetime mut i32,
+    c: &'lifetime mut i32,
 }
 
-// ------------------------------------------
-// tuple structs
-// ------------------------------------------
+/// An example tuple struct containing 3 integers.
 struct TestStruct5(i32, i32, i32);
 
-// ------------------------------------------
-// struct containing itself
-// ------------------------------------------
+/// A struct containing itself.
 struct TestStruct6 {
     a: i32,
     b: Option<Box<TestStruct6>>,
@@ -185,26 +179,30 @@ fn main() {
         // ------------------------------------------
         // Struct with mutable borrows
         // ------------------------------------------
-        let mut a = 10;
-        let mut b = 10;
-        let mut c = 10;
-
+        let mut b = 0;
+        let mut c = 0;
+        let mut a = 0;
         // The '_ means the compiler should infer the lifetime
-        let test_struct4: TestStruct4<'_> = TestStruct4 {
+        let mut test_struct4: TestStruct4<'_> = TestStruct4 {
             a: &mut a,
             b: &mut b,
             c: &mut c,
         };
+        {
+            let mut a_v2 = 0;
+            test_struct4.a = &mut a_v2;
+            *test_struct4.a = 12;
+            *test_struct4.b = 14;
+            *test_struct4.c = 16;
 
-        *test_struct4.a = 12;
-        *test_struct4.b = 14;
-        *test_struct4.c = 16;
+            println!("#7 test_struct4 -> a={0} b={1} c={2} a_v2={3}", a, b, c, a_v2);
+        }
 
-        println!("#7 test_struct4 -> a={0} b={1} c={2}", a, b, c);
+        //  *test_struct4.a = 5; <-- this is not possible because ac does not life long enough
     }
     {
         // ------------------------------------------
-        //Tuple  Struct
+        // Tuple  Struct
         // ------------------------------------------
         let test_struct5 = TestStruct5(32, 33, 34);
 
@@ -234,7 +232,7 @@ fn main() {
         let a3 = b2.a;
 
         println!(
-            "#9 test_struct5 -> 0={0} 1={1} 2={2}",
+            "#9 test_struct6 -> 0={0} 1={1} 2={2}",
             test_struct6.a, a2, a3
         )
     }

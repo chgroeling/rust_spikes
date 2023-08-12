@@ -1,6 +1,7 @@
-/// Interesting example of a tree datastructure which is traversed by an iterator.
-///
-/// This example shows a lot of interesting concepts around memory management in rust.
+//! Interesting example of a tree datastructure which is traversed by an iterator.
+//!
+//! This example shows a lot of interesting concepts around memory management in rust.
+
 use std::mem;
 
 enum Node {

@@ -1,16 +1,18 @@
-/// This file gives some example what rust will do when working with references and mutable references
-/// 
-/// It contains not "real" tests. Just examples contained in a test.
+//! This file gives some example what rust will do when working with references and mutable references
+//! 
+//! It contains not "real" tests. Just examples contained in a test.
+
+/// An empty struct used as example material.
 struct TestStruct {}
 
 #[allow(dead_code)]
 impl TestStruct {
+    /// This function requests a mutable borrow to self.
     fn test_mutable_reference(&self) {
-        // This function wants a mutable borrow of self.
     }
 
+    /// This function wants to move the ownership of self to this method.
     fn test_move_ownership(self) {
-        // This function moves self to this method
     }
 }
 
@@ -19,6 +21,7 @@ mod tests {
     use super::*;
 
     #[test]
+    /// This test is intended to show the usage of immutable borrows of a object.
     fn try_mulitple_immutable_borrows() {
         // multiple immutable borrows are allowed
         let a = 123;
@@ -34,6 +37,7 @@ mod tests {
     }
 
     #[test]
+    /// This test is intended to show the usage of one mutable borrow of an object.
     fn try_one_mutable_borrow() {
         // one mutable borrows are allowed
         let mut a = 123;
@@ -47,6 +51,8 @@ mod tests {
     }
 
     #[test]
+    /// This test shows what happens when the ownership moves. Especially in case of a method
+    /// which is implemented for a struct.
     fn try_mutable_reference_and_move_ownership() {
         // difference between &self and self
         let lifetime1 = TestStruct {};

@@ -1,4 +1,4 @@
-/// Detect strings representing palindromes in two different ways.
+//! This crate implements two algorithmns to detect if a string is an palindrome.
 
 use std::iter::zip;
 
@@ -6,7 +6,7 @@ use std::iter::zip;
 ///
 /// # Arguments
 ///
-/// * `word` : a string slice that holds the word to be checked
+/// * `word` : a string slice to be checked
 /// * `is_palindrome` : a mutable bool slice to hold the result of this algorithmn.
 fn palindrome_fct1(word: &str, is_palindrome: &mut bool) {
     *is_palindrome = true;
@@ -17,11 +17,11 @@ fn palindrome_fct1(word: &str, is_palindrome: &mut bool) {
     }
 }
 
-/// Returns true if `word` is a palindrome
+/// Returns true if `word` is a palindrome.
 ///
 /// # Arguments
 ///
-/// * `word` : a string slice that holds the word to be checked
+/// * `word` :  a string slice to be checked
 fn palindrome_fct2(word: &str) -> bool {
     let mut is_palindrome = true;
     for (a, b) in zip(word.chars(), word.chars().rev()) {

@@ -1,5 +1,8 @@
 //! This crate is used to do some experiments with structs and lifetime.  
 
+mod banner;
+mod new_type_idiom;
+
 /// A struct containing 3 value types
 struct TestStruct1 {
     a: i32,
@@ -71,9 +74,7 @@ struct TestStruct6 {
 
 fn main() {
     {
-        // ------------------------------------------
-        // immutable struct. No field can be changed.
-        // ------------------------------------------
+        banner::print_h0("Immutable struct. No field can be changed.");
         let test_struct1 = TestStruct1 {
             a: 10,
             b: 11,
@@ -83,14 +84,12 @@ fn main() {
         // this is not allowed. The struct is inmutable
         // test_struct1.b = 10
         println!(
-            "#1 test_struct1 -> a={0} b={1} c={2}",
+            "test_struct1 -> a={0} b={1} c={2}",
             test_struct1.a, test_struct1.b, test_struct1.c
         );
     }
     {
-        // ------------------------------------------
-        // copy struct
-        // ------------------------------------------
+        banner::print_h0("copy struct");
         let test_struct1 = TestStruct1 {
             a: 10,
             b: 11,
@@ -104,15 +103,13 @@ fn main() {
             c: test_struct1.c,
         };
         println!(
-            "#2 test_struct1 -> a={0} b={1} c={2}",
+            "test_struct1 -> a={0} b={1} c={2}",
             test_struct1.a, test_struct1.b, test_struct1.c
         );
     }
 
     {
-        // ------------------------------------------
-        // update syntax ... does copy it too!
-        // ------------------------------------------
+        banner::print_h0("update syntax ... does copy it too!");
         let test_struct1 = TestStruct1 {
             a: 10,
             b: 11,
@@ -125,15 +122,13 @@ fn main() {
             ..test_struct1
         };
         println!(
-            "#3 test_struct1 -> a={0} b={1} c={2}",
+            "test_struct1 -> a={0} b={1} c={2}",
             test_struct1.a, test_struct1.b, test_struct1.c
         );
     }
 
     {
-        // ------------------------------------------
-        // mutable struct ... mutability is inherited to all fields
-        // ------------------------------------------
+        banner::print_h0("Mutable struct ... mutability is inherited to all fields");
         let mut test_struct1 = TestStruct1 {
             a: 10,
             b: 11,
@@ -143,26 +138,22 @@ fn main() {
         test_struct1.b = 15;
 
         println!(
-            "#4 test_struct1 -> a={0} b={1} c={2}",
+            "test_struct1 -> a={0} b={1} c={2}",
             test_struct1.a, test_struct1.b, test_struct1.c
         );
     }
     {
-        // ------------------------------------------
-        // Struct with method
-        // ------------------------------------------
+        banner::print_h0("Struct with method");
         let mut test_struct2 = TestStruct2::new(); // reference is moved
 
         test_struct2.b = 15; // ok because struct is mutable
         println!(
-            "#5 test_struct2 -> a={0} b={1} c={2}",
+            "test_struct2 -> a={0} b={1} c={2}",
             test_struct2.a, test_struct2.b, test_struct2.c
         );
     }
     {
-        // ------------------------------------------
-        // Struct with private fields
-        // ------------------------------------------
+        banner::print_h0("Struct with private fields");
         let mut test_struct3 = structs::TestStruct3::new();
 
         // test_struct3.b = 15; field is private this is not allowed
@@ -173,12 +164,10 @@ fn main() {
 
         let (a, b, c) = test_struct3.get();
 
-        println!("#6 test_struct3 -> a={0} b={1} c={2}", a, b, c);
+        println!("test_struct3 -> a={0} b={1} c={2}", a, b, c);
     }
     {
-        // ------------------------------------------
-        // Struct with mutable borrows
-        // ------------------------------------------
+        banner::print_h0("Struct with mutable borrows");
         let mut b = 0;
         let mut c = 0;
         let mut a = 0;
@@ -195,26 +184,22 @@ fn main() {
             *test_struct4.b = 14;
             *test_struct4.c = 16;
 
-            println!("#7 test_struct4 -> a={0} b={1} c={2} a_v2={3}", a, b, c, a_v2);
+            println!("test_struct4 -> a={0} b={1} c={2} a_v2={3}", a, b, c, a_v2);
         }
 
         //  *test_struct4.a = 5; <-- this is not possible because ac does not life long enough
     }
     {
-        // ------------------------------------------
-        // Tuple  Struct
-        // ------------------------------------------
+        banner::print_h0("Tuple  Struct");
         let test_struct5 = TestStruct5(32, 33, 34);
 
         println!(
-            "#8 test_struct5 -> 0={0} 1={1} 2={2}",
+            "test_struct5 -> 0={0} 1={1} 2={2}",
             test_struct5.0, test_struct5.1, test_struct5.2
         )
     }
     {
-        // ------------------------------------------
-        // Self containing struct
-        // ------------------------------------------
+        banner::print_h0("Self containing struct");
         let test_struct6 = TestStruct6 {
             a: 20,
             b: Some(Box::new(TestStruct6 {
@@ -232,8 +217,9 @@ fn main() {
         let a3 = b2.a;
 
         println!(
-            "#9 test_struct6 -> 0={0} 1={1} 2={2}",
+            "test_struct6 -> 0={0} 1={1} 2={2}",
             test_struct6.a, a2, a3
         )
     }
+    new_type_idiom::test();
 }

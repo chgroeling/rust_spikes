@@ -1,7 +1,6 @@
 //! This crate is used to do some experiments with structs and lifetime.  
 
 mod banner;
-mod new_type_idiom;
 
 /// A struct containing 3 value types
 struct TestStruct1 {
@@ -221,5 +220,4 @@ fn main() {
             test_struct6.a, a2, a3
         )
     }
-    new_type_idiom::test();
 }

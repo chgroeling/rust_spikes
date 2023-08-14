@@ -62,7 +62,5 @@ mod tests {
         // This is not possible anymore:
         // lifetime1.test_move_ownership(); // E0382
         // The ownership was moved to test_move_ownership and here it has gone out of scope
-
-
     }
 }

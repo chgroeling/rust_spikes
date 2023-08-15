@@ -71,6 +71,10 @@ struct TestStruct6 {
     b: Option<Box<TestStruct6>>,
 }
 
+fn function_destructuring(TestStruct1{a, ..} : TestStruct1) {
+    println!("test_struct1 ... partially destructured -> a={0} ", a);
+}
+
 fn main() {
     {
         banner::print_h0("Immutable struct. No field can be changed.");
@@ -88,7 +92,7 @@ fn main() {
         );
     }
     {
-        banner::print_h0("copy struct");
+        banner::print_h0("changing and shadowing struct");
         let test_struct1 = TestStruct1 {
             a: 10,
             b: 11,
@@ -108,7 +112,47 @@ fn main() {
     }
 
     {
-        banner::print_h0("update syntax ... does copy it too!");
+        banner::print_h0("Destructuring");
+        let test_struct1: TestStruct1 = TestStruct1 {
+            a: 10,
+            b: 11,
+            c: 12,
+        };
+
+        let TestStruct1 { a, b, c } = test_struct1;
+
+        println!(
+            "test_struct1 ... destructured -> a={0} b={1} c={2}",
+            a, b, c
+        );
+    }
+
+    {
+        banner::print_h0("Partial destructuring");
+        let test_struct1: TestStruct1 = TestStruct1 {
+            a: 10,
+            b: 11,
+            c: 12,
+        };
+
+        let TestStruct1 { a, .. } = test_struct1;
+
+        println!("test_struct1 ... partially destructured -> a={0} ", a);
+    }
+
+    {
+        banner::print_h0("Partial destructuring - used in function");
+        let test_struct1: TestStruct1 = TestStruct1 {
+            a: 10,
+            b: 11,
+            c: 12,
+        };
+
+        function_destructuring(test_struct1);
+    }
+
+    {
+        banner::print_h0("Update syntax");
         let test_struct1 = TestStruct1 {
             a: 10,
             b: 11,
@@ -215,9 +259,6 @@ fn main() {
 
         let a3 = b2.a;
 
-        println!(
-            "test_struct6 -> 0={0} 1={1} 2={2}",
-            test_struct6.a, a2, a3
-        )
+        println!("test_struct6 -> 0={0} 1={1} 2={2}", test_struct6.a, a2, a3)
     }
 }

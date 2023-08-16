@@ -1,16 +1,13 @@
 //! Experiments with Rc and Weak
 //!
 
+use crate::banner;
 use std::rc::{Rc, Weak};
 
 pub fn example_rc_weak() {
-    println!("========================================");
-    println!("{}", file!());
-    println!("========================================");
 
-    println!("----------------------------------------");
-    println!("Experiment 1 - Rc and Weak");
-    println!("----------------------------------------");
+    banner::print_h0(&format!("{}", file!()));
+    banner::print_h1("Experiment 1 - Rc and Weak");
 
     let wobj : Weak<i32>; // create an empty weak reference
     {

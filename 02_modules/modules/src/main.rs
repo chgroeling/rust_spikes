@@ -7,6 +7,7 @@ mod mod_3;
 mod mod_4;
 mod mod_5;
 mod test_mod;
+use my_lib;
 
 fn main() {
 
@@ -15,4 +16,5 @@ fn main() {
     mod_3::mod_3();
     mod_4::mod_4();
     mod_5::mod_5();
+    my_lib::lib_1();
 }

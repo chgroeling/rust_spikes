@@ -1,6 +1,8 @@
 //! Rust traits explained by a simple observer pattern implementation.
 //!
 
+use crate::banner;
+
 /// This trait indicates that an object is observeable. The notify method is called by the Observer.
 trait Observable {
     /// This method is called when the Observer notifies its clients.
@@ -55,10 +57,8 @@ impl<'a> Observer<'a> {
 }
 
 pub fn example_observer() {
-    println!("========================================");
-    println!("{}", file!());
-    println!("========================================");
-    
+    banner::print_h0(&format!("{}", file!()));
+
     let mut test_obj1 = Object1 {};
     let mut test_obj2 = Object2 {};
     let mut observer = Observer { observers: vec![] };

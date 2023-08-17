@@ -6,7 +6,7 @@ fn main() {
 
         let a = 42;
 
-        let closure = |x: i32| x * 2;
+        let closure = |x: i32| x * 2; // implements the Fn Trait
 
         let b = closure(a);
 
@@ -17,7 +17,7 @@ fn main() {
 
         let a = 42;
 
-        let closure = |x: i32| {
+        let closure = |x: i32| { // implements the Fn Trait
             let a = x + 2;
             a * 2
         };
@@ -32,7 +32,7 @@ fn main() {
 
         let a = 42;
 
-        let closure = |x: i32|->u32 {
+        let closure = |x: i32|->u32 { // implements the Fn Trait
             let a = x + 2;
             (a as u32)* 2
         };
@@ -48,7 +48,7 @@ fn main() {
         let a = 42;
         let mut mut_var: i32 = 30;
 
-        let mut closure = |x: i32| {
+        let mut closure = |x: i32| { // implements the FnMut Trait
             mut_var = mut_var + 1;
             let a = x + mut_var;
             a * 2

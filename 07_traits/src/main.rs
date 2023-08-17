@@ -3,10 +3,12 @@
 //! 
 
 mod fn_ret_and_traits;
+mod extension_traits;
 mod banner;
 mod observer;
 
 fn main() {
     observer::example_observer();
     fn_ret_and_traits::fn_ret_and_traits();
+    extension_traits::extension_traits();
 }

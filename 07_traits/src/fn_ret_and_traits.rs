@@ -70,7 +70,7 @@ fn returning_result_static_2(switch: bool) -> Result<i32, impl MyErrorTrait+Debu
 
     // interstingly the debug trait of MyError1 is called by returning_result_static 2
 
-    if (switch) {
+    if switch {
         return Err(MyError1{msg:"MyError1 - hello world".to_string()});
     } else {
         return Err(MyError1{msg:"MyError1 - hello world".to_string()}); // Return MyError2 here is not possible ... Statically only one type can be returned

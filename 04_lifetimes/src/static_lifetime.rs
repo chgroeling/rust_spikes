@@ -12,6 +12,7 @@ fn work_with_static<'a>(_arg:&'a i32) -> &'a i32 {
     return &NUM;
 }
 
+
 pub fn static_lifetime() {
 
     {

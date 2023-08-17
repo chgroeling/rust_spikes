@@ -6,8 +6,8 @@ fn print_it( input: impl Debug + 'static ) {
     println!( "'static value passed in is: {:?}", input );
 }
 
-pub fn static_lifetime() {
-    banner::print_h0("Lifetime attribute 'static in traits");
+pub fn static_trait_bound() {
+    banner::print_h0("Static trait bound");
 
     
     // i is owned and contains no references, thus it's 'static:
